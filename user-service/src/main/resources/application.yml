@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+app:
+  db-driver: ${DB_DRIVER:jdbc:postgresql}
+  db-host: ${DB_HOST:localhost}
+  db-port: ${DB_PORT:5432}
+  db-name: ${DB_NAME:coresoft-user-service}
+  db-param: ${DB_PARAM:}
+  db-schema: ${DB_SCHEMA:public}
+  db-username: ${DB_USERNAME}
+  db-password: ${DB_PASSWORD}
+  feign-role-service-url: ${FEIGN_ROLE_SERVICE_URL:http://localhost:8082}
+  log-level: ${LOG_LEVEL:INFO}
+  server-port: ${server.port}
+  app-name: ${APP_NAME:coresoft-user-service}
+
+spring:
+  application:
+    name: ${app.app-name}
+  main:
+    banner-mode: "off"
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:/db/changelog/liquibase_changelog.xml
+    default-schema: ${app.db-schema}
+    liquibase-schema: ${app.db-schema}
+    database-change-log-lock-table: "LIQ_DATABASECHANGELOGLOCK"
+    database-change-log-table: "LIQ_DATABASECHANGELOG"
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+          role-service-client:
+            url: ${app.feign-role-service-url}
+
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui/index.html
+  api-docs:
+    path: /api/swagger-ui/api-docs

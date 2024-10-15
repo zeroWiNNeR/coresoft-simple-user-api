@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+app:
+  user-service-url: ${USER_SERVICE_URL:http://localhost:8081}
+  role-service-url: ${ROLE_SERVICE_URL:http://localhost:8082}
+  log-level: ${LOG_LEVEL:INFO}
+  server-port: ${server.port}
+  app-name: ${APP_NAME:coresoft-gateway-service}
+
+spring:
+  main:
+    web-application-type: reactive
+    banner-mode: "off"
+    allow-bean-definition-overriding: true
+  application:
+    name: ${app.app-name}
+
+management:
+  tracing:
+    baggage:
+      correlation:
+        fields:
+          "x-correlation-id"
